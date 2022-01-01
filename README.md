@@ -18,7 +18,6 @@
 - [Summary](#Summary)
 - [Installation](#Installation)
 - [Usage](#Usage)
-- [Roadmap](#Roadmap)
 - [License](#License)
 
 ## Summary
@@ -26,13 +25,6 @@
 ## Installation
 
 ## Usage
-
-## Roadmap
-- [ ] Create REPL
-- [ ] Implement API requests
-- [ ] Implement commands based on API requests
-- [ ] Allow import/export of jobs/queries
-- [ ] Implement user authentication
 
 ## License
 Jobert CLI is licensed under the GPL-3.0 License.
