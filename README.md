@@ -32,7 +32,7 @@
 - [ ] Implement API requests
 - [ ] Implement commands based on API requests
 - [ ] Allow import/export of jobs/queries
-- [ ] Publicly host API with user authentication in CLI
+- [ ] Implement user authentication
 
 ## License
 Jobert CLI is licensed under the GPL-3.0 License.
