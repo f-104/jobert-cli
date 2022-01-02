@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/spf13/cobra"
@@ -40,19 +41,19 @@ Proper usage: jobert get [query/job] -q #`,
 
 		resp, err := http.Get(url)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatalln(err)
 		}
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatalln(err)
 		}
 
 		if args[0] == "query" {
 			var allQueries []Query
 			err = json.Unmarshal(body, &allQueries)
 			if err != nil {
-				fmt.Println(err)
+				log.Fatalln(err)
 			}
 
 			for i := 0; i < len(allQueries); i++ {
@@ -71,7 +72,7 @@ Proper usage: jobert get [query/job] -q #`,
 			var allJobs []Job
 			err = json.Unmarshal(body, &allJobs)
 			if err != nil {
-				fmt.Println(err)
+				log.Fatalln()
 			}
 
 			for i := 0; i < len(allJobs); i++ {

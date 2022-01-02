@@ -31,7 +31,7 @@ Proper usage: jobert del query -q #`,
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if qid == -1 {
-			log.Fatal("-q/--qid is required.")
+			log.Fatalln("-q/--qid is required.")
 		}
 
 		client := &http.Client{}
@@ -39,21 +39,20 @@ Proper usage: jobert del query -q #`,
 		url := fmt.Sprintf("http://localhost:8080/query/%d", qid)
 		req, err := http.NewRequest("DELETE", url, nil)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalln(err)
 		}
 
 		resp, err := client.Do(req)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalln(err)
 		}
 		defer resp.Body.Close()
 
 		b, err := io.ReadAll(resp.Body)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalln(err)
 		}
 
-		//
 		fmt.Println(resp.Status)
 		fmt.Sprintln(string(b))
 	},

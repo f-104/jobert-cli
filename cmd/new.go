@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -74,18 +75,18 @@ Proper usage: 'jobert new query'`,
 
 		mQuery, err := json.Marshal(newQuery)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatalln(err)
 		}
 
 		resp, err := http.Post("http://localhost:8080/query", "application/json", bytes.NewBuffer(mQuery))
 		if err != nil {
-			fmt.Println(err)
+			log.Fatalln(err)
 		}
 		defer resp.Body.Close()
 
 		b, err := io.ReadAll(resp.Body)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatalln(err)
 		}
 		fmt.Println(string(b))
 	},
