@@ -10,6 +10,23 @@ import (
 // optionally filter jobs/queries by query_id
 var qid int
 
+type Query struct {
+	City   string
+	Id     int
+	Radius string
+	State  string
+	Term   string
+}
+
+type Job struct {
+	Company  string
+	Href     string
+	Id       int
+	Location string
+	Query_id int
+	Title    string
+}
+
 // base command
 var rootCmd = &cobra.Command{
 	Use:   "jobert",

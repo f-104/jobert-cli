@@ -1,8 +1,11 @@
 package cmd
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	"github.com/spf13/cobra"
 )
@@ -25,7 +28,66 @@ Proper usage: jobert get [query/job] -q #`,
 		return fmt.Errorf("invalid command 'jobert get %s'", args[0])
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get called")
+		var url string
+
+		if qid == -1 {
+			url = fmt.Sprintf("http://localhost:8080/%s", args[0])
+		} else if args[0] == "query" {
+			url = fmt.Sprintf("http://localhost:8080/%s?id=%d", args[0], qid)
+		} else {
+			url = fmt.Sprintf("http://localhost:8080/%s?query_id=%d", args[0], qid)
+		}
+
+		resp, err := http.Get(url)
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		if args[0] == "query" {
+			var allQueries []Query
+			err = json.Unmarshal(body, &allQueries)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			for i := 0; i < len(allQueries); i++ {
+				fmt.Println("id:", allQueries[i].Id, "\t", "radius:", allQueries[i].Radius)
+				fmt.Println("term:", allQueries[i].Term)
+				fmt.Println("location:", allQueries[i].City+", "+allQueries[i].State)
+				fmt.Println("-----")
+			}
+
+			if len(allQueries) == 1 {
+				fmt.Println(len(allQueries), "query")
+			} else {
+				fmt.Println(len(allQueries), "queries")
+			}
+		} else {
+			var allJobs []Job
+			err = json.Unmarshal(body, &allJobs)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			for i := 0; i < len(allJobs); i++ {
+				fmt.Println("id:", allJobs[i].Id, "\t", "query_id:", allJobs[i].Query_id)
+				fmt.Println("title:", allJobs[i].Title)
+				fmt.Println("company:", allJobs[i].Company)
+				fmt.Println("location:", allJobs[i].Location)
+				fmt.Println("-----")
+			}
+
+			if len(allJobs) == 1 {
+				fmt.Println(len(allJobs), "job")
+			} else {
+				fmt.Println(len(allJobs), "jobs")
+			}
+		}
 	},
 }
 
