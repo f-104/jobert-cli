@@ -36,7 +36,7 @@ Proper usage: jobert del query -q #`,
 
 		client := &http.Client{}
 
-		url := fmt.Sprintf("http://localhost:8080/query?id=%d", qid)
+		url := fmt.Sprintf("http://localhost:8080/query/%d", qid)
 		req, err := http.NewRequest("DELETE", url, nil)
 		if err != nil {
 			log.Fatal(err)
@@ -55,7 +55,6 @@ Proper usage: jobert del query -q #`,
 
 		//
 		fmt.Println(resp.Status)
-		//fmt.Println(resp.Header)
 		fmt.Sprintln(string(b))
 	},
 }
