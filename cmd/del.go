@@ -24,7 +24,7 @@ Jobs older than one day should be automatically deleted on the API backend.
 Proper usage: jobert del query -q #`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
-			return errors.New("argument 'query' or 'job' required")
+			return errors.New("argument 'query' required")
 		}
 		if args[0] == "query" {
 			return nil

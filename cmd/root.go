@@ -33,7 +33,7 @@ var rootCmd = &cobra.Command{
 	Short: "CLI tool to interface with Jobert API",
 	Long: `The Jobert CLI tool is designed to exchange data with the Jobert API.
 As there is currently no publicly hosted API deployment, the API is assumed
-to be accessible at https://localhost:8080.
+to be accessible at http://localhost:8080.
 
 This tool offers a simplified approach to adding new queries and managing
 data already in the database.`,
