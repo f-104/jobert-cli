@@ -16,9 +16,10 @@ var getCmd = &cobra.Command{
 	Use:   "get",
 	Short: "Get jobs or queries from database",
 	Long: `Get jobs or queries from API database.
-Optionally use the -q/--qid flag to filter by query_id.
+Optionally use the -q/--qid flag to filter jobs by query_id.
 
-Proper usage: jobert get [query/job] -q #`,
+Proper usage: jobert get query
+			  jobert get job -q #`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
 			return errors.New("argument 'query' or 'job' required")
@@ -34,7 +35,7 @@ Proper usage: jobert get [query/job] -q #`,
 		if qid == -1 {
 			url = fmt.Sprintf("http://localhost:8080/%s", args[0])
 		} else if args[0] == "query" {
-			url = fmt.Sprintf("http://localhost:8080/%s/%d", args[0], qid)
+			log.Fatalln("-q/--qid only supported for filtering jobs")
 		} else {
 			url = fmt.Sprintf("http://localhost:8080/%s?query_id=%d", args[0], qid)
 		}
