@@ -1,8 +1,15 @@
 package cmd
 
 import (
+	"bufio"
+	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -17,6 +24,8 @@ city: [city]
 state: [state] (two-letter abbreviation)
 radius: [radius] (distance from city to search)
 
+radius must be chosen from [0, 5, 10, 15, 25, 50, 100].
+
 Proper usage: 'jobert new query'`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
@@ -28,11 +37,20 @@ Proper usage: 'jobert new query'`,
 		return fmt.Errorf("invalid command 'jobert new %s'", args[0])
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		type postQuery struct {
+			City   string `json:"city"`
+			Radius string `json:"radius"`
+			State  string `json:"state"`
+			Term   string `json:"term"`
+		}
+
 		var (
+			reader    *bufio.Reader = bufio.NewReader(os.Stdin)
 			newTerm   string
 			newCity   string
 			newState  string
 			newRadius string
+			newQuery  postQuery
 		)
 
 		fmt.Println("Queries contain a search term, city, state, and radius.")
@@ -40,23 +58,39 @@ Proper usage: 'jobert new query'`,
 		fmt.Println("Choose radius from [0, 5, 10, 15, 25, 50, 100].")
 
 		fmt.Print("Enter search term: ")
-		fmt.Scanln(&newTerm)
+		newTerm, _ = reader.ReadString('\n')
 		fmt.Print("Enter city: ")
-		fmt.Scanln(&newCity)
+		newCity, _ = reader.ReadString('\n')
 		fmt.Print("Enter state: ")
-		fmt.Scanln(&newState)
+		newState, _ = reader.ReadString('\n')
 		fmt.Print("Enter radius: ")
-		fmt.Scanln(&newRadius)
+		newRadius, _ = reader.ReadString('\n')
+
+		// only need to replace \r\n due to Windows development. Will be changed in a future commit
+		newQuery.Term = strings.Replace(newTerm, "\r\n", "", -1)
+		newQuery.City = strings.Replace(newCity, "\r\n", "", -1)
+		newQuery.State = strings.Replace(newState, "\r\n", "", -1)
+		newQuery.Radius = strings.Replace(newRadius, "\r\n", "", -1)
+
+		mQuery, err := json.Marshal(newQuery)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		resp, err := http.Post("http://localhost:8080/query", "application/json", bytes.NewBuffer(mQuery))
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer resp.Body.Close()
+
+		b, err := io.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(string(b))
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(newCmd)
 }
-
-// TODO
-// 1. [x] Get user input for query data (term, city, state, radius)
-// 2. [X] Validate user input
-// 3. [ ] Create and marshal new Query struct
-// 4. [ ] Send POST request
-// 5. [ ] Print statement based on response

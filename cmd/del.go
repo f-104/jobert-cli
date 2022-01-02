@@ -12,7 +12,7 @@ var delCmd = &cobra.Command{
 	Use:   "del",
 	Short: "Delete queries or jobs from database",
 	Long: `Delete queries or jobs from API database.
-Optionally use the -q/--qid flag to filter by query_id.
+Use the -q/--qid flag to filter by query_id (required).
 
 Deleting all entries is not supported by the API.
 
