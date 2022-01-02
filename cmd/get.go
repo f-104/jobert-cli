@@ -48,6 +48,7 @@ Proper usage: jobert get [query/job] -q #`,
 		if err != nil {
 			log.Fatalln(err)
 		}
+		fmt.Println(resp.Status)
 
 		if args[0] == "query" {
 			var allQueries []Query

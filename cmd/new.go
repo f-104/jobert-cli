@@ -89,6 +89,7 @@ Proper usage: 'jobert new query'`,
 		if err != nil {
 			log.Fatalln(err)
 		}
+		fmt.Println(resp.Status)
 		fmt.Println(string(b))
 	},
 }

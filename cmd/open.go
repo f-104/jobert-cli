@@ -55,6 +55,7 @@ Proper usage: jobert open -q #`,
 		if l == 0 {
 			log.Fatalln("no jobs found")
 		}
+		fmt.Println(resp.Status)
 		fmt.Printf("%d jobs found. Are you sure you want to open? [y/N]", l)
 		ans, _ := reader.ReadString('\n')
 		winAns := strings.Replace(ans, "\r\n", "", -1)

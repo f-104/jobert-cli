@@ -19,6 +19,8 @@ Use the -q/--qid flag to filter by query_id (required).
 
 Deleting all entries is not supported by the API.
 
+Jobs older than one day should be automatically deleted on the API backend..
+
 Proper usage: jobert del query -q #`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
@@ -54,7 +56,7 @@ Proper usage: jobert del query -q #`,
 		}
 
 		fmt.Println(resp.Status)
-		fmt.Sprintln(string(b))
+		fmt.Println(string(b))
 	},
 }
 
