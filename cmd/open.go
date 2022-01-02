@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/pkg/browser"
@@ -57,9 +58,12 @@ Proper usage: jobert open -q #`,
 		}
 		fmt.Println(resp.Status)
 		fmt.Printf("%d jobs found. Are you sure you want to open? [y/N]", l)
+
 		ans, _ := reader.ReadString('\n')
-		winAns := strings.Replace(ans, "\r\n", "", -1)
-		if winAns != "y" {
+		if runtime.GOOS == "windows" {
+			ans = strings.Replace(ans, "\r\n", "", -1)
+		}
+		if ans != "y" {
 			os.Exit(0)
 		}
 

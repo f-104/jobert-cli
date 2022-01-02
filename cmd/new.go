@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -68,11 +69,17 @@ Proper usage: 'jobert new query'`,
 		fmt.Print("Enter radius: ")
 		newRadius, _ = reader.ReadString('\n')
 
-		// only need to replace \r\n due to Windows development. Will be changed in a future commit
-		newQuery.Term = strings.Replace(newTerm, "\r\n", "", -1)
-		newQuery.City = strings.Replace(newCity, "\r\n", "", -1)
-		newQuery.State = strings.Replace(newState, "\r\n", "", -1)
-		newQuery.Radius = strings.Replace(newRadius, "\r\n", "", -1)
+		if runtime.GOOS == "windows" {
+			newQuery.Term = strings.Replace(newTerm, "\r\n", "", -1)
+			newQuery.City = strings.Replace(newCity, "\r\n", "", -1)
+			newQuery.State = strings.Replace(newState, "\r\n", "", -1)
+			newQuery.Radius = strings.Replace(newRadius, "\r\n", "", -1)
+		} else {
+			newQuery.Term = newTerm
+			newQuery.City = newCity
+			newQuery.State = newState
+			newQuery.Radius = newRadius
+		}
 
 		mQuery, err := json.Marshal(newQuery)
 		if err != nil {
