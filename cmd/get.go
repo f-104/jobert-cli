@@ -34,7 +34,7 @@ Proper usage: jobert get [query/job] -q #`,
 		if qid == -1 {
 			url = fmt.Sprintf("http://localhost:8080/%s", args[0])
 		} else if args[0] == "query" {
-			url = fmt.Sprintf("http://localhost:8080/%s?id=%d", args[0], qid)
+			url = fmt.Sprintf("http://localhost:8080/%s/%d", args[0], qid)
 		} else {
 			url = fmt.Sprintf("http://localhost:8080/%s?query_id=%d", args[0], qid)
 		}
