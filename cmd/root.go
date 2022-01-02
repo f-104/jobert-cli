@@ -9,6 +9,7 @@ import (
 // optionally filter jobs/queries by query_id
 var qid int
 
+// structs correspond to tables in API database
 type Query struct {
 	City   string `json:"city"`
 	Id     int    `json:"id"`

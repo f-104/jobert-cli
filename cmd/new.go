@@ -38,6 +38,7 @@ Proper usage: 'jobert new query'`,
 		return fmt.Errorf("invalid command 'jobert new %s'", args[0])
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		// id is autoincremented and should not be included in a POST request
 		type postQuery struct {
 			City   string `json:"city"`
 			Radius string `json:"radius"`
