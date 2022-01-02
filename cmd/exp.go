@@ -33,3 +33,9 @@ Proper usage: jobert exp [query/job] -q #`,
 func init() {
 	rootCmd.AddCommand(expCmd)
 }
+
+// TODO
+// 1. Do get.go
+// 2. Store all data in list of structs
+// 3. Create CSV file
+// 4. Print list to CSV file

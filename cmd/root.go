@@ -10,20 +10,20 @@ import (
 var qid int
 
 type Query struct {
-	City   string
-	Id     int
-	Radius string
-	State  string
-	Term   string
+	City   string `json:"city"`
+	Id     int    `json:"id"`
+	Radius string `json:"radius"`
+	State  string `json:"state"`
+	Term   string `json:"term"`
 }
 
 type Job struct {
-	Company  string
-	Href     string
-	Id       int
-	Location string
-	Query_id int
-	Title    string
+	Company  string `json:"company"`
+	Href     string `json:"href"`
+	Id       int    `json:"id"`
+	Location string `json:"location"`
+	Query_id int    `json:"query_id"`
+	Title    string `json:"title"`
 }
 
 // base command

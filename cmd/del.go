@@ -14,7 +14,7 @@ var delCmd = &cobra.Command{
 	Long: `Delete queries or jobs from API database.
 Optionally use the -q/--qid flag to filter by query_id.
 
-WARNING: If -q not specified, will delete all entries.
+Deleting all entries is not supported by the API.
 
 Proper usage: jobert del [query/job] -q #`,
 	Args: func(cmd *cobra.Command, args []string) error {
@@ -35,3 +35,8 @@ Proper usage: jobert del [query/job] -q #`,
 func init() {
 	rootCmd.AddCommand(delCmd)
 }
+
+// TODO (note deleting all rows is not supported by the API)
+// 1. confirm qid != -1
+// 2. Send DELETE request to /job or /query for qid
+// 3. Print statement based on response

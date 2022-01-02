@@ -24,3 +24,8 @@ Proper usage: jobert open -q #`,
 func init() {
 	rootCmd.AddCommand(openCmd)
 }
+
+// TODO
+// 1. Do get.go
+// 2. Print warning about opening n tabs in default browser, y/N
+// 3. For each job, open in browser

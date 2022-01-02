@@ -28,11 +28,35 @@ Proper usage: 'jobert new query'`,
 		return fmt.Errorf("invalid command 'jobert new %s'", args[0])
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("new called")
-		// TODO
+		var (
+			newTerm   string
+			newCity   string
+			newState  string
+			newRadius string
+		)
+
+		fmt.Println("Queries contain a search term, city, state, and radius.")
+		fmt.Println("Provide state as two-letter abbreviation.")
+		fmt.Println("Choose radius from [0, 5, 10, 15, 25, 50, 100].")
+
+		fmt.Print("Enter search term: ")
+		fmt.Scanln(&newTerm)
+		fmt.Print("Enter city: ")
+		fmt.Scanln(&newCity)
+		fmt.Print("Enter state: ")
+		fmt.Scanln(&newState)
+		fmt.Print("Enter radius: ")
+		fmt.Scanln(&newRadius)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(newCmd)
 }
+
+// TODO
+// 1. [x] Get user input for query data (term, city, state, radius)
+// 2. [X] Validate user input
+// 3. [ ] Create and marshal new Query struct
+// 4. [ ] Send POST request
+// 5. [ ] Print statement based on response
